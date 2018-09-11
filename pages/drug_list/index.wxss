@@ -1,0 +1,56 @@
+.container {
+    position: absolute;
+    min-height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    margin-top: 100rpx;
+}
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #e7e7e7;
+    text-align: center;
+    z-index: 2;
+}
+.drug-tab {
+    display: inline-block;
+    line-height: 3;
+    padding: 0 120rpx;
+    font-size: 15px;
+}
+.drug-tab.cur {
+    color: #1b91e0;
+}
+.drug-tab.cur:after {
+    content:'';
+    display: block;
+    width: 56rpx;
+    height: 4rpx;
+    border-radius: 1px;
+    background-color: #1b91e0;
+    margin:0 auto;
+}
+/*搜索列表*/
+.text-list {
+    position: relative;
+    display: block;
+    padding: 26rpx 30rpx;
+    color: #323232;
+    border-bottom: 1px solid #e7e7e7;
+    font-size: 14px;
+}
+.arrow {
+    position: absolute;
+    right: 16rpx;
+    top: 50%;
+    margin-top: -10rpx;
+    width: 50rpx;
+    height: 50rpx;
+    background: url("https://media2.chunyuyisheng.com/@/media/images/2017/10/16/4d44/f9b86d9ca41f_w20_h20_.png") no-repeat center;
+    background-size: 20rpx auto;
+    cursor: pointer;
+}

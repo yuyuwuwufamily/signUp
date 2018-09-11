@@ -1,0 +1,142 @@
+<view class="container" wx:if="{{!search}}">
+<view>
+  <icon class="iconfont icon-zhiding"></icon>
+  <icon class="iconfont icon-zuojiantou"></icon>
+  <icon class="iconfont icon-youjiantou"></icon>
+  <icon class="iconfont icon-shangjiantou"></icon>
+  <icon class="iconfont icon-xiajiantou1"></icon>
+  <icon class="iconfont icon-xiajiantou"></icon>
+</view>
+<view>
+  <icon class="iconfont icon-gengduotianchong"></icon>
+  <icon class="iconfont icon-erweima"></icon>
+  <icon class="iconfont icon-fenleiorguangchangorqita"></icon>
+  <icon class="iconfont icon-dibiao"></icon>
+  <icon class="iconfont icon-bangzhu"></icon>
+  <icon class="iconfont icon-xinfeng"></icon>
+</view>
+<view>
+  <icon class="iconfont icon-duihuaxinxi"></icon>
+  <icon class="iconfont icon-sousuo"></icon>
+  <icon class="iconfont icon-shouye"></icon>
+  <icon class="iconfont icon-shezhi"></icon>
+  <icon class="iconfont icon-shanchu"></icon>
+  <icon class="iconfont icon-dianhua"></icon>
+</view>
+    <!--搜索头部-->
+    <view class="middle-section">
+        <view class="search-top">
+            <view ref="top" id="top" class="logo">
+                <image src="../../images/logo.png" alt="春雨用药查询" class="drug-logo" mode="aspectFit"></image>
+                <text>春雨用药查询</text>
+            </view>
+            <view class="search-contaier-fake" bindtap="searchNow">
+                <icon type="search" size="16" color="#aaa" class="search-icon"/>
+                <text class='search-text'>"板蓝根片"可输入blgp搜索</text>
+            </view>
+            <view class="search-type clearfix">
+                <navigator url="../drug_list/index?type=foreign" class="drug-type classify" bindtap="doPointEvent" data-type="classify">药品分类</navigator>
+                <navigator url="../disease_list/index" class="drug-type disease" bindtap="doPointEvent" data-type="disease">疾病</navigator>
+                <!-- <navigator url="../drug_tools/index" class="drug-type calculate">医学计算</navigator> -->
+                <navigator url="../drug_comment/index" class="drug-type comment hot" bindtap="doPointEvent" data-type="comment">热门评论</navigator>
+            </view>
+        </view>
+    </view>
+    <!--近期更新-->
+    <view class="middle-section" wx:if="{{recent_update.length}}">
+        <view class="search-middle">
+            <view class="title">
+                <text>近期更新</text>
+                <navigator class="recent-update-more" url="../recent_update_list/index" open-type="navigate">查看更多</navigator>
+            </view>
+            <view class="recent-update clearfix">
+                <navigator wx:for="{{recent_update}}" class="recent-update-item" url="../drug_detail/index?drug_id={{item.drug_info.id}}&from_type=update">
+                    <view class="recent-update-name">{{ item.drug_info.name }}</view>
+                    <view class="good-name"><text>{{item.drug_info.good_name}}</text></view>
+                </navigator>
+            </view>
+        </view>
+    </view>
+    <!--热评榜-->
+    <view class="search-bottom" wx:if="{{hot_comment_rank.length}}">
+        <view class="title">热评榜</view>
+        <view class="hot-comment">
+            <navigator class="doctor-info clearfix" wx:for="{{hot_comment_rank}}" wx:if="{{index <= 9}}" url="../drug_detail/index?drug_id={{item.drug_info.id}}&quote_id={{item.id}}&from_type=homepagelist" hover-class="none">
+                <view class="doctor-left">
+                <image class="doctor-img" src="{{item.doctor_info.image}}" mode="scaleToFill"></image>
+                <text class="doctor_{{index}}" wx:if="{{index < 3}}"></text>
+                </view>
+                <view class="doctor-right">
+                    <view class="name">
+                        <text class="doctor-name">{{item.doctor_info.name}}{{item.doctor_info.clinic_name}}</text>
+                        <text class="drug">{{item.drug_info.name}}</text>
+                    </view>
+                    <view class="comment-detail">{{item.content}}</view>
+                </view>
+                <template is="FavorAndReply" data="{{item}}"></template>
+            </navigator>
+        </view> 
+    </view>
+</view>
+<!--搜索功能-->
+<view class="container" wx:if="{{search}}">
+    <view class="search-contaier">
+        <form class="input-wrap" action="/clinic/drug_inquiry/search/" bindsubmit="submitForm">
+            <icon class="search-btn" type="search" size="16" color="#cecece"  bindtap="clearInput"/>
+            <input class="search-input" 
+                type="text" 
+                name="keywords" 
+                placeholder="输入需要查询的药品" 
+                value="{{keywords}}" 
+                bindinput="searchDrug" 
+                focus="{{isFocus}}" 
+                maxlength="15"
+                bindconfirm="submitForm"/>
+            <icon  class="delete-btn" type="clear" size="16" color="{{item}}"  bindtap="clearInput" color="#cecece"/>
+        </form>
+        <text type="submit" class="cancel-btn" bindtap="searchHide">取消</text>
+    </view>
+    <!--搜索历史-->
+    <view class="search-history" wx:if="{{history.length && historyShow}}">
+        <view class="history-title">
+            历史搜索
+            <icon class="clear-btn" bindtap="clearHistory"></icon>
+        </view>
+        <view class="search-history-list" wx:for="{{history}}">
+            <navigator url="../drug_result/index?history=1&drug={{item}}" bindtap="saveHistory" data-value="{{item}}">{{item}}</navigator>
+        </view>
+    </view>
+    <!--联想搜索-->
+    <view class="search-associate" v-show="keywords && associateShow">
+        <navigator 
+            wx:for="{{associate}}" 
+            url="../drug_detail/index?drug_id={{item.id}}& from_type=search" 
+            class="text-list" 
+            bindtap="saveHistory"
+            data-value="{{item.name}}">
+            <block wx:if="{{item.first_name}}">
+                <text class="s-hl">{{ item.first_name }}</text>{{item.end_name}} 
+            </block>
+            <block wx:else>
+                {{item.name}}
+            </block>
+            <text wx:if="{{item.good_name}}">（{{item.good_name}}）</text>
+            <view class="mfrs-name">{{item.company_name}}</view>
+            <icon class="arrow" catchtap="replaceKeywords" data-value="{{item.name}}"></icon>
+        </navigator>
+    </view>
+</view>
+<!--点赞回复-->
+<template name="FavorAndReply">
+    <view class="bottom-wrap clearfix" catchtap="linkTo">
+        <view class="fr">
+            <view class="icon-btn upvote-btn {{item.has_favor ? 'active': ''}}" bindtap="{{upvote}}">
+                <text class="num">{{item.favor_num}}</text>
+                <text wx:if="{{item.has_favor}}">取消</text>
+                <text wx:else>点赞</text>
+            </view>
+             <view wx:if="{{reply == 'quote'}}" class="icon-btn reply-btn">引用回复</view>
+            <view wx:else class="icon-btn reply-btn">回复</view> 
+        </view>
+    </view>
+</template>

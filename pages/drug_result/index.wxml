@@ -1,0 +1,19 @@
+<view class="drug-wrap container">
+    <view class="associate-tip">
+        搜索 “<text class="tip-keywords">{{keywords}}</text>” 相关的结果
+    </view>
+    <navigator 
+        wx:for="{{drugList}}" 
+        url="../drug_detail/index?drug_id={{item.id}}& from_type=search" 
+        class="text-list" 
+        bindtap="saveHistory"
+        data-value="{{item.name}}">
+            {{item.name}}
+        <text wx:if="{{item.good_name}}">（{{item.good_name}}）</text>
+        <view class="mfrs-name">{{item.company_name}}</view>
+    </navigator>
+    <view class="prompt-wrap" wx:if="{{!isLoading && !drugList.length}}">
+        <image src="https://dn-chunyu.qbox.me/@/media/images/2017/05/11/4f64/601f5c417b9b_w98_h96_.png" alt="无结果" class="prompt-image" mode="aspectFit"></image>
+        <view class="prompt-text">无结果</view>
+    </view>
+</view>

@@ -1,0 +1,19 @@
+<view class="disease-wrap container">
+    <view wx:for="{{diseaseList}}" class="disease-list">
+        <view bindtap="showSubList" data-index="{{index}}">
+            <icon class="{{item.tag}}"></icon>
+            <view class="name">{{item.name}}</view>
+            <view class="desc">{{item.desc}}</view>
+        </view>
+        <view class="sub-disease-list" wx:if="{{item.sub_disease_list && item.show}}">
+            <navigator class="disease-link" 
+                wx:for="{{item.sub_disease_list}}" 
+                wx:for-item="sub" 
+                url="../disease_detail/index?disease_id={{sub.id}}&disease_name={{sub.name}}"
+                hover-class="none">
+                <view class="sub-name">{{sub.name}}</view>
+                <icon class="right-tag"></icon>
+            </navigator>
+        </view>
+    </view>
+</view>

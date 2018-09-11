@@ -1,0 +1,99 @@
+<scroll-view class="container" 
+    scroll-y 
+    scroll-into-view="{{toView}}" 
+    scroll-top="1000">
+    <!--药品信息-->
+    <view class="drug-wrap">
+        <view class="drug-header">
+            <view class="header-left">
+                <view class="name">{{detail.name}}</view>
+                <view class="good_name" wx:if="{{detail.product_name}}">商品名：{{detail.product_name}}</view>
+                <view class="factory" wx:if="{{detail.company_name}}">{{detail.company_name}}</view>
+            </view>
+            <view class="price-wrap">
+                <view class="price-title">均价</view>
+                <view class="price" wx:if="{{detail.price}}">{{detail.price}}</view>
+                <view class="price" wx:else>--</view>
+            </view>
+            <!-- <navigator url="../drug_correction/index?drug_id={{drug_id}}" class="color-blue">我要纠错</navigator> -->
+        </view>
+            <template is="drugItem" wx:for="{{drugDetailList}}" data="{{item,show,index}}"></template>
+        <view class="show-wrap">
+            <view class="show-btn" bindtap="showAll">
+                {{show_text}}<icon class="{{down_tag}}"></icon>
+            </view>
+        </view>
+    </view>
+    <view class="comment-top-pos" id="comment-top-pos">
+        <!--热门评论-->
+        <view class="comments-wrap" wx:if="{{hot_comment.length}}" id="hot-comment">
+            <view class="title">
+                热门评论
+                <view class="hot-tag"></view>
+            </view>
+            <view wx:for="{{hot_comment}}">
+                <template is="commentItem" data="{{item,reply}}"></template>
+            </view>
+        </view>
+        <!--全部评论-->
+        <view class="comments-wrap" id="all-comment">
+            <view class="title" wx:if="{{comment_list.length}}">
+                全部评论
+                <view class="all-tag"></view>
+            </view>
+            <view wx:if="{{comment_list.length}}" wx:for="{{comment_list}}">
+                <template is="commentItem" data="{{item,reply}}"></template>
+            </view>
+        </view>
+    </view>
+    <view class="button-wrap">
+        <view class="view-comments comments-button" bindtap="jumpToComment">
+            <view class="comments-info">查看<view>评论</view></view> 
+            <view class="comments-num">{{comments_num}}</view>
+        </view>
+       
+        <!-- <view class="jump-comments comments-button">
+            <view class="comments-info">我说<view>两句</view></view>
+        </view>  -->
+    </view>
+</scroll-view>
+<!--药品卡片-->
+<template name="drugItem">
+	<view wx:if="{{item.item}}" class="drug-item {{(index > 4 && !show) ? 'hide-item': ''}}">
+		<view class="drug-title">{{item.title}}</view>
+        <view :class="[selector,limit]">
+		    <view class="content" :class="content">{{item.item}}</view>
+        </view>
+    </view>
+</template>
+<!--评论卡片-->
+<template name="commentItem">
+    <view class="comment-item" bindtap="linkTo" data-id="{{item.id}}" id="anchor{{item.id}}">
+        <view class="doctor-detail">
+            {{item.doctor_info.name}} {{item.doctor_info.clinic_name}} {{item.doctor_info.hospital_name}}
+        </view>
+        <view wx:if="{{item.quote_comment}}" class="quote-comment">
+            <view class="name">引用{{item.quote_comment.doctor_name}}医生的回复</view>
+            <view class="content" wx:if="{{item.quote_comment.is_online}}">{{item.quote_comment.content}}</view>
+        </view>
+        <view class="comment-detail">{{item.content}}</view>
+        <template is="FavorAndReply" data="{{item,reply}}"></template>
+    </view>
+</template>
+<!--点赞回复-->
+<template name="FavorAndReply">
+    <view class="bottom-wrap clearfix">
+        <view wx:if="{{!reply}}" class="drug fl">
+            药品：{{item.drug_info.name}}
+        </view>
+        <view class="fr">
+            <view class="icon-btn upvote-btn {{item.has_favor ? 'active': ''}}" bindtap="{{upvote}}">
+                <text class="num">{{item.favor_num}}</text>
+                <text wx:if="{{item.has_favor}}">取消</text>
+                <text wx:else>点赞</text>
+            </view>
+             <view wx:if="{{reply == 'quote'}}" class="icon-btn reply-btn">引用回复</view>
+             <view wx:else class="icon-btn reply-btn">回复</view>  
+        </view>
+    </view>
+</template>

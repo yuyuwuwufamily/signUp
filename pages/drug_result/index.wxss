@@ -1,0 +1,59 @@
+/*搜索列表*/
+.text-list {
+    position: relative;
+    display: block;
+    padding: 26rpx 30rpx;
+    color: #323232;
+    border-bottom: 1px solid #e7e7e7;
+    font-size: 14px;
+}
+.arrow {
+    position: absolute;
+    right: 16rpx;
+    top: 50%;
+    margin-top: -10rpx;
+    width: 50rpx;
+    height: 50rpx;
+    background: url("https://media2.chunyuyisheng.com/@/media/images/2017/10/16/4d44/f9b86d9ca41f_w20_h20_.png") no-repeat center;
+    background-size: 20rpx auto;
+    cursor: pointer;
+}
+
+.mfrs-name {
+    color: #999;
+    font-size: 13px;
+    margin-right: 40rpx;
+}
+
+.s-hl {
+    color: #1C91E0;
+}
+.associate-tip {
+    padding: 26rpx 30rpx;
+    color: #999;
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+    overflow: hidden;
+    font-size: 14px;
+}
+.tip-keywords {
+    color: #1c91e0;
+}
+.prompt-wrap {
+    text-align: center;
+    font-size: 30rpx;
+    color: #666;
+    position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+.prompt-image {
+    width: 100rpx;
+    height: 100rpx;
+    margin-bottom: 20rpx;
+}
+.prompt-text {
+    line-height: 1.2;
+}

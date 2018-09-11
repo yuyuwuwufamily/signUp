@@ -1,0 +1,26 @@
+<view class="container">
+    <view class="header">
+        <text class="drug-tab {{type=='foreign' ? 'cur': ''}}" bindtap="changeTab" data-type="foreign">西药</text>
+        <text class="drug-tab {{type=='china' ? 'cur': ''}}" bindtap="changeTab" data-type="china">中成药</text>
+    </view>
+    <!--西药-->
+    <navigator 
+        url="../drug_second_list/index?drug_id={{item.id}}&drug_name={{item.name}}&type=foreign" 
+        wx:for="{{categoryList}}" 
+        class="text-list" 
+        wx:if="{{type=='foreign'}}"
+        hover-class="none"> 
+        {{item.name}}
+        <span wx:if="{{item.good_name}}">（{{item.good_name}}）</span>
+    </navigator>
+    <!--中药-->
+    <navigator 
+        url="../drug_second_list/index?drug_id={{item.id}}&drug_name={{item.name}}&type=china" 
+        wx:for="{{chinaList}}" 
+        class="text-list"
+        wx:if="{{type=='china'}}"
+        hover-class="none"> 
+        {{item.name}}
+        <span wx:if="{{item.good_name}}">（{{item.good_name}}）</span>
+    </navigator>
+</view>

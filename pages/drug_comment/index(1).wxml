@@ -1,0 +1,50 @@
+<view class="container">
+    <view class="nav">
+        <view class="nav-item {{hotActive ? 'active' : ''}}" bindtap="showTab" data-active="{{hotActive}}" data-type="hotActive">
+            <text class="nav-text">热评</text>
+        </view>
+        <view class="nav-item {{newActive ? 'active' : ''}}" bindtap="showTab" data-active="{{newActive}}" data-type="newActive">
+            <text class="nav-text">最新</text>
+        </view>
+    </view>
+    <template wx:for="{{dataList}}" wx:if="{{active}}" is="commentItem" data="{{item}}"></template>
+    <template wx:if="{{active && dataList && !dataList.length}}" is="prompt"></template>
+</view>
+<!--暂无评论-->
+<template name="prompt">
+    <div class="prompt-wrap">
+        <image :src="https://dn-chunyu.qbox.me/@/media/images/2017/05/11/4f64/601f5c417b9b_w98_h96_.png" alt="无结果" class="prompt-image"></image>
+        <view class="prompt-text">暂无评论</view>
+    </div>
+</template>
+<!--评论卡片-->
+<template name="commentItem">
+    <view class="comment-item" bindtap="linkTo" data-id="{{item.id}}" data-drugid="{{item.drug_info.id}}">
+        <view class="doctor-detail">
+            {{item.doctor_info.name}} {{item.doctor_info.clinic_name}} {{item.doctor_info.hospital_name}}
+        </view>
+        <view wx:if="{{item.quote_comment}}" class="quote-comment">
+            <view class="name">引用{{item.quote_comment.doctor_name}}医生的回复</view>
+            <view class="content" wx:if="{{item.quote_comment.is_online}}">{{item.quote_comment.content}}</view>
+        </view>
+        <view class="comment-detail">{{item.content}}</view>
+        <template is="FavorAndReply" data="{{item,reply}}"></template>
+    </view>
+</template>
+<!--点赞回复-->
+<template name="FavorAndReply">
+    <view class="bottom-wrap clearfix">
+        <view wx:if="{{!reply}}" class="drug fl">
+            药品：{{item.drug_info.name}}
+        </view>
+        <view class="fr" catchtap="todo">
+            <view class="icon-btn upvote-btn {{item.has_favor ? 'active': ''}}" bindtap="{{upvote}}">
+                <text class="num">{{item.favor_num}}</text>
+                <text wx:if="{{item.has_favor}}">取消</text>
+                <text wx:else>点赞</text>
+            </view>
+             <view wx:if="{{reply == 'quote'}}" class="icon-btn reply-btn">引用回复</view>
+             <view wx:else class="icon-btn reply-btn">回复</view>  
+        </view>
+    </view>
+</template>

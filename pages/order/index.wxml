@@ -1,0 +1,107 @@
+
+<view class="checkorder-container">
+  <scroll-view scroll-y="{{scrollState}}" style="height: 100%">
+  <view class="{{ checkState?'hiden-node':'' }}">
+    <view wx:if="{{!orderList.length}}" class="no-order order-price">
+      暂无订单
+    </view>
+    <view wx:else class="check-order" bindtap="checkOrder">
+      <view class="order-price">查订单</view>
+      <image src="../../images/right_arrow.png"></image>
+    </view>
+  </view>
+
+  <view  class="order-info-wrapper {{ !checkState?'hiden-node':'' }}">
+  <!-- 订单头部 -->
+    <view class="order-info-top">
+      <view class="flex-layout order-id">
+        <view>订单号：{{orderList[0].id}}</view>
+        <view>报名板块：{{orderList[0].team}}</view>
+      </view>
+      <view class="flex-layout order-code">
+        <view>验票展示二维码</view>
+        <view>
+          <image wx:if="{{orderList[0].empower}}" src="../../images/xxxhdpiselectbox_select@3x.png" class="code-img"></image>
+          <image wx:else src="../../images/button_delete@3x.png" class="code-img"></image>
+          <image wx:if="{{orderList[0].empower}}" src="../../images/right_arrow.png" class="arrow-img"></image>
+          <image wx:else src="../../images/right_arrow.png" class="arrow-img"></image>
+        </view>
+      </view>
+      <view class="flex-layout order-code">
+        <view>找人代领</view>
+        <view class="empower">
+          <view>{{orderList[0].empower?orderList[0].empower:'未授权'}}</view>
+          <image src="../../images/right_arrow.png" class="arrow-img"></image>
+        </view>
+      </view>
+    </view>
+  <!-- 订单详情 -->
+    <view class="order-info-contant">
+      <view class="order-info-contant-title">订单详情</view>
+      <view>
+        <view class="item-insurance">
+          <view class="item-insurance-title">车辆-保险受益人</view>
+          <view class="order-price">￥120×{{orderList[0].carList.length}}</view>
+        </view>
+        <view class="item-insurance-info">
+          <view wx:for="{{orderList[0].carList}}" wx:key="*this.id" class="item-person">{{ item.name }}  {{item.id}}</view>
+        </view>
+      </view>
+
+      <view class="info-wrapper">
+        <view class="item-insurance">
+          <view class="item-insurance-title">随行-保险受益人</view>
+          <view class="order-price">￥120×{{orderList[0].accompany.length}}</view>
+        </view>
+        <view class="item-insurance-info">
+          <view wx:for="{{orderList[0].accompany}}" wx:key="*this.id" class="item-person">{{ item.name }}  {{item.id}}</view>
+        </view>
+      </view>
+
+      <view class="item-insurance info-wrapper">
+        <view class="item-insurance-title">车贴</view>
+        <view class="order-price">￥0×{{orderList[0].carList.length}}</view>
+      </view>
+
+      <view class="item-insurance info-wrapper info-gift">
+        <view>
+          <view class="item-insurance-title">手礼</view>
+          <view class="order-price">
+            <text wx:for="{{orderList[0].gift}}" wx:key="*this.id" class="order-gift-name">{{item.name}}  </text>
+          </view>
+        </view>
+        <view class="order-price">￥60×{{orderList[0].gift.length}}</view>
+      </view>
+
+      <view class="item-insurance info-wrapper info-gift">
+        <view class="item-insurance-title">实付款</view>
+        <view class="order-price">￥{{orderList[0].total}}</view>
+      </view>
+    </view>
+  <!-- 查订单   -->
+    <view class="check-order space-item" bindtap="changeModel" data-visible="{{true}}">
+      <view class="order-price">查订单</view>
+      <image src="../../images/right_arrow.png"></image>
+    </view>
+  <!-- 报名统计   -->
+    <view class="check-order space-item" bindtap="showSignPeople">
+      <view class="order-price">报名统计</view>
+      <image src="../../images/right_arrow.png"></image>
+    </view>
+  </view>
+
+  <view class="model {{modelState?'':'hide-model'}}">
+      <image src="../../images/popbox_closed@3x.png" bindtap="changeModel" data-visible="{{false}}"></image>
+  </view>
+  
+  <view class="model-wrapper {{modelState?'':'hide-model'}}">
+        <view class="model-title">查订单</view>
+        <view class="model-contant">
+          <view class="section">
+            <input type="idcard" placeholder-class="phcolor" class='item-input' name="number" placeholder="输入身份证或订单号" />
+          </view>
+        </view>
+        <button bindtap="continueSign">确定</button> 
+  </view>
+  </scroll-view>
+</view>

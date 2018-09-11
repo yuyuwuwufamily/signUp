@@ -1,0 +1,32 @@
+.list-wrap {
+    background-color: #f1f1f1;
+}
+.drug-list {
+    display: block;
+    background: #f1f1f1;
+}
+.letter {
+    padding: 20rpx 30rpx;
+    font-size: 14px;
+}
+.drug-container {
+    background: #fff;
+    line-height: 1.8;
+}
+.drug {
+    padding: 20rpx 30rpx;
+    border-bottom: 1px solid #e7e7e7;
+}
+.name {
+    display: block;
+    color: #323232;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.factory {
+    display: block;
+    color: #999;
+    font-size: 13px;
+}

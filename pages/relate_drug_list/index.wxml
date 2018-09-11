@@ -1,0 +1,15 @@
+<view class="drug-wrap">
+    <view class="drug-list" wx:for="{{drugList}}">
+        <view wx:if="{{item.index_flag}}" class="letter">{{item.pinyin_index}}</view>
+        <navigator url="../drug_detail/index?drug_id={{item.id}}&from_type=medicineclassification" class="drug-type disease">
+            <view class="drug-container">
+                <view class="drug">
+                    <view class="name">{{item.name}}
+                        <text wx:if="{{item.good_name}}">({{item.good_name}})</text>
+                    </view>
+                    <view class="factory" wx:if="{{item.company_name}}">{{item.company_name}}</view>
+                </view>
+            </view>
+        </navigator>
+    </view>
+</view>
